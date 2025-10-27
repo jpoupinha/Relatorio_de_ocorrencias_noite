@@ -1,0 +1,67 @@
+
+import streamlit as st
+from datetime import datetime
+
+st.set_page_config(page_title="Inspeção Noturna - Triagem de Encomendas", layout="centered")
+
+st.title("📋 Formulário de Inspeção - Técnico Noturno")
+st.subheader("Sistema de Triagem de Encomendas")
+
+# Informações Gerais
+st.markdown("### Informações Gerais")
+tecnico = st.text_input("Nome do Técnico")
+data = st.date_input("Data", value=datetime.today())
+hora_inicio = st.time_input("Hora de Início da Inspeção")
+hora_fim = st.time_input("Hora de Fim da Inspeção")
+
+# Verificação Mecânica
+st.markdown("### 🔧 Verificação Mecânica")
+componentes_mecanicos = {
+    "Motores": "",
+    "Redutores": "",
+    "Correias/Correntes": "",
+    "Rolamentos": "",
+    "Tapetes Transportadores": "",
+    "Estrutura Metálica": ""
+}
+
+for componente in componentes_mecanicos:
+    estado = st.radio(f"{componente} - Estado", ["OK", "Anomalia"], key=componente)
+    observacao = st.text_area(f"{componente} - Observações", key=f"obs_{componente}")
+
+# Verificação Funcional
+st.markdown("### ⚙️ Verificação Funcional")
+funcionais = {
+    "Sensores": "",
+    "Inversores de Frequência": "",
+    "Fluxo de Encomendas": "",
+    "Comunicação com Sistema": ""
+}
+
+for item in funcionais:
+    estado = st.radio(f"{item} - Estado", ["OK", "Anomalia"], key=item)
+    observacao = st.text_area(f"{item} - Observações", key=f"obs_{item}")
+
+# Verificação de Segurança
+st.markdown("### 🛡️ Verificação de Segurança")
+seguranca = {
+    "Botões de Emergência": "",
+    "Barreiras Óticas": "",
+    "Proteções Físicas": "",
+    "Sinalização": ""
+}
+
+for item in seguranca:
+    estado = st.radio(f"{item} - Estado", ["OK", "Falha"], key=item)
+    observacao = st.text_area(f"{item} - Observações", key=f"obs_{item}")
+
+# Ocorrências
+st.markdown("### 📋 Registo de Ocorrências")
+ocorrencias = st.text_area("Ocorrências durante o turno")
+acoes = st.text_area("Ações corretivas realizadas")
+criticidade = st.radio("Criticidade das ocorrências", ["Criticidade 1 (Paragem total)", "Criticidade 2 (Funcionamento condicionado)"])
+
+# Submissão
+if st.button("Submeter Inspeção"):
+    st.success("Inspeção registada com sucesso!")
+    # Aqui pode-se adicionar lógica para guardar os dados num ficheiro CSV ou base de dados
